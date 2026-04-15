@@ -258,3 +258,24 @@ Private Sub DeleteUnfilteredRows( _
             .Delete
     End If
 End Sub
+
+' TODO: separate into a separate, referenceable package so that it can be used in multiple projects.
+'@Description "Open a workbook and copy a worksheet from it to another workbook, returning the copy."
+Private Function CopyWorkbookSheet( _
+        ByVal wbFromPath As String, _
+        ByVal wbTo As Workbook, _
+        ByVal SheetIndex As Long, _
+        ByVal Name As String _
+    ) As Worksheet
+    Dim wbFrom As Workbook
+    Set wbFrom = Workbooks.Open( _
+        Filename:=wbFromPath _
+        , ReadOnly:=True _
+    )
+    With wbTo
+        wbFrom.Sheets.Item(SheetIndex).Copy After:=.Sheets.Item(.Sheets.Count)
+        Set CopyWorkbookSheet = .Sheets.Item(.Sheets.Count)
+        CopyWorkbookSheet.Name = Name
+    End With
+    wbFrom.Close
+End Function
