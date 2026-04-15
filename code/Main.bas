@@ -58,22 +58,11 @@ Public Sub Main()
         wsNonRepOut.Name = "NonRep Output"
         
     End With
-    
-    Set wbJobData = Workbooks.Open( _
-        Filename:=Sesh.fpathJobData _
-        , ReadOnly:=True _
-    )
-    
-    Set ws = wbJobData.Sheets.Item(1)
-    With wbOutput
-        ws.Copy After:=.Sheets.Item(.Sheets.Count)
-        Set wsJobData = .Sheets.Item(.Sheets.Count)
-    End With
-    Set ws = Nothing
-    wbJobData.Close
+
+    Set wsJobData = CopyWorkbookSheet(Sesh.fpathJobData, wbOutput, 1, "Job Data")
+    Set wsABValidation = CopyWorkbookSheet(Sesh.fpathABValidation, wbOutput, 1, "AB Validation")
     
     With wsJobData
-        .Name = "Job Data"
         .Rows.Item(1).EntireRow.Delete
         
         ' A1:AZ1, reverse order, check for values
@@ -102,21 +91,7 @@ Public Sub Main()
     DeleteUnfilteredRows wsJobData
     wsJobData.AutoFilterMode = False
     
-    Set wbABValidation = Workbooks.Open( _
-        Filename:=Sesh.fpathABValidation _
-        , ReadOnly:=True _
-    )
-    
-    Set ws = wbABValidation.Sheets.Item(1)
-    With wbOutput
-        ws.Copy After:=.Sheets.Item(.Sheets.Count)
-        Set wsABValidation = .Sheets.Item(.Sheets.Count)
-    End With
-    Set ws = Nothing
-    wbABValidation.Close
-    
     With wsABValidation
-        .Name = "AB Validation"
         .Rows.Item(1).EntireRow.Delete
         
         For col = 26 To 1 Step -1
