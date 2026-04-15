@@ -217,7 +217,13 @@ Public Sub Main()
     wbOutput.Close SaveChanges:=True
 End Sub
 
-Private Sub AddAutoFilter(ByVal ws As Worksheet, ByVal rg As Range, Optional ByVal ColOffset As Long, Optional ByVal Criteria As String)
+'@Ignore UseMeaningfulName
+Private Sub AddAutoFilter( _
+        ByVal ws As Worksheet, _
+        ByVal rg As Range, _
+        Optional ByVal ColOffset As Long, _
+        Optional ByVal Criteria As String _
+    )
     ws.AutoFilterMode = False
     rg.AutoFilter Field:=ColOffset, Criteria1:=Criteria
 End Sub
@@ -229,7 +235,11 @@ End Sub
 ' If this ends up being too intense for my CPU then
 ' I will change it
 ' Time is Money
-Private Sub DeleteUnfilteredRows(ByVal ws As Worksheet, Optional ByVal IncludeHeader As Boolean = False)
+'@Ignore UseMeaningfulName
+Private Sub DeleteUnfilteredRows( _
+        ByVal ws As Worksheet, _
+        Optional ByVal IncludeHeader As Boolean = False _
+    )
     If IncludeHeader Then
         ' Get range A1:AZ10k,
         ' then delete anything not filtered out from that range
