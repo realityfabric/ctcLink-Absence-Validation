@@ -40,6 +40,8 @@ Public Sub Main()
 
     Set Sesh = New Session
     form_fileselect.Show
+    ' if file selection form was closed without clicking the button to run this application then terminate
+    If Sesh.FormClosedWithoutRunning Then Exit Sub
     
     Set wbOutput = Workbooks.Add
     With wbOutput
@@ -80,15 +82,15 @@ Public Sub Main()
         ' will ever exceed AZ
         ' and if they do, I guess this will have to be updated
         Dim col As Long
-        Dim value As String
+        Dim Value As String
         For col = 26 * 2 To 1 Step -1
-            value = .Cells.Item(1, col).Value2
-            If Not (value = "Employee ID" _
-                Or value = "Employee Primary Name" _
-                Or value = "Employee Class" _
-                Or value = "Lv Accrual Dt" _
-                Or value = "Union Member" _
-                Or value = "Full/Part" _
+            Value = .Cells.Item(1, col).Value2
+            If Not (Value = "Employee ID" _
+                Or Value = "Employee Primary Name" _
+                Or Value = "Employee Class" _
+                Or Value = "Lv Accrual Dt" _
+                Or Value = "Union Member" _
+                Or Value = "Full/Part" _
                 ) Then
                 .Cells.Item(1, col).EntireColumn.Delete
             End If
@@ -118,14 +120,14 @@ Public Sub Main()
         .Rows.Item(1).EntireRow.Delete
         
         For col = 26 To 1 Step -1
-            value = .Cells.Item(1, col).Value2
-            If Not (value = "Name" _
-                Or value = "ID" _
-                Or value = "PIN Name" _
-                Or value = "Slice Begin Date" _
-                Or value = "Slice End Date" _
-                Or value = "Leave Accrual" _
-                Or value = "Leave Balance" _
+            Value = .Cells.Item(1, col).Value2
+            If Not (Value = "Name" _
+                Or Value = "ID" _
+                Or Value = "PIN Name" _
+                Or Value = "Slice Begin Date" _
+                Or Value = "Slice End Date" _
+                Or Value = "Leave Accrual" _
+                Or Value = "Leave Balance" _
                 ) Then
                 .Cells.Item(1, col).EntireColumn.Delete
             End If
@@ -143,7 +145,7 @@ Public Sub Main()
         CutCopyMode = Application.CutCopyMode
         
         .Range("A:A").EntireColumn.Insert (XlDirection.xlToRight)
-        .Range("A:A").value = .Range("C:C").value
+        .Range("A:A").Value = .Range("C:C").Value
         .Range("C:C").EntireColumn.Delete
         
         Application.CutCopyMode = CutCopyMode
