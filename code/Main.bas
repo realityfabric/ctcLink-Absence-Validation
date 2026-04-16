@@ -5,29 +5,10 @@ Option Explicit
 '@Ignore EncapsulatePublicField
 Public Sesh As Session
 
-'@VariableDescription("Stores the Unix Timestamp at runtime, set in the Main method.")
-Private UnixTimestamp As LongLong
-Attribute UnixTimestamp.VB_VarDescription = "Stores the Unix Timestamp at runtime, set in the Main method."
-
-'@Description("Returns the Unix Timestamp recorded at runtime in the Main method.")
-Public Function GetTimestamp() As LongLong
-Attribute GetTimestamp.VB_Description = "Returns the Unix Timestamp recorded at runtime in the Main method."
-    GetTimestamp = UnixTimestamp
-End Function
-
-'@Description("Returns the Unix Timestamp recorded at runtime in the Main method as a string.")
-Public Function GetTimestampStr() As String
-Attribute GetTimestampStr.VB_Description = "Returns the Unix Timestamp recorded at runtime in the Main method as a string."
-    GetTimestampStr = Trim$(Str$(GetTimestamp()))
-End Function
-
-Public Function UnixTime() As LongLong
-    UnixTime = DateDiff("s", "1/1/1970 00:00:00", Now)
-End Function
-
 '@EntryPoint
 Public Sub Main()
-    UnixTimestamp = UnixTime()
+    Dim UnixTimestamp As LongLong
+    UnixTimestamp = EpochTime.TimestampNow()
     
     Dim wbOutput As Workbook
     Dim wbJobData As Workbook
@@ -46,7 +27,7 @@ Public Sub Main()
     Set wbOutput = Workbooks.Add
     With wbOutput
       '  .Name = "Absence Validation Output"
-        .SaveAs Filename:="ABValidation_" & GetTimestampStr()
+        .SaveAs Filename:="ABValidation_" & Trim$(Str$(UnixTimestamp))
         
         ' assign original sheet1 to a variable
         Set wsRepOut = .Sheets.Item(1)
@@ -254,3 +235,4 @@ Private Function CopyWorkbookSheet( _
     End With
     wbFrom.Close
 End Function
+
