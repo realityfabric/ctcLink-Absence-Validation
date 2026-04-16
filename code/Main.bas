@@ -220,6 +220,7 @@ Private Function CopyWorkbookSheet( _
         ByVal SheetIndex As Long, _
         ByVal Name As String _
     ) As Worksheet
+Attribute CopyWorkbookSheet.VB_Description = "Open a workbook and copy a worksheet from it to another workbook, returning the copy."
     Dim wbFrom As Workbook
     Set wbFrom = Workbooks.Open( _
         Filename:=wbFromPath _
@@ -232,5 +233,3 @@ Private Function CopyWorkbookSheet( _
     End With
     wbFrom.Close
 End Function
-
-
