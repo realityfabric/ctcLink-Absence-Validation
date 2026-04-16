@@ -11,9 +11,6 @@ Public Sub Main()
     UnixTimestamp = EpochTime.TimestampNow()
     
     Dim wbOutput As Workbook
-    Dim wbJobData As Workbook
-    Dim wbABValidation As Workbook
-    Dim ws As Worksheet
     Dim wsRepOut As Worksheet
     Dim wsNonRepOut As Worksheet
     Dim wsJobData As Worksheet
@@ -235,4 +232,5 @@ Private Function CopyWorkbookSheet( _
     End With
     wbFrom.Close
 End Function
+
 
