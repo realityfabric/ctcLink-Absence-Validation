@@ -35,6 +35,7 @@ Public Sub LoadConfigs( _
             = "leave-accrual_vac_classified-represented.csv")
 Attribute LoadConfigs.VB_Description = "Load configurations, optionally change config filenames and directory."
     ' TODO write private methods to load the config files into this
+    InitCLANonRepVac
     ' TODO write a private method to sort the config
     ' TODO throw an error if the years are not consecutive starting at either 0 or 1
 End Sub
@@ -74,6 +75,39 @@ Public Property Get fClassifiedRepVac() As String
 Attribute fClassifiedRepVac.VB_Description = "Returns the file name of the configuration for Classified Represented vacation accrual."
     fClassifiedRepVac = this.fClassifiedRepVac
 End Property
+
+'@Description("Set the values for the configuration of Classified Non-Represented vacation accrual.")
+Private Sub InitCLANonRepVac()
+    Dim wbConfig As Workbook
+    Dim Path As String
+    Dim Index As Long
+    Path = ThisWorkbook.Path & "/" & this.ConfigDir & "/" & this.fClassifiedNonRepVac
+    Set wbConfig = Workbooks.Open(Path, ReadOnly:=True)
+    With wbConfig.Sheets.Item(1)
+        ' Row Index 1 is Headers
+        For Index = 2 To .UsedRange.Rows.Count
+            Dim Row As ConfigRow
+            Set Row = New ConfigRow
+
+            Dim Years As Long
+            Dim Hours As Long
+            Dim Required As Boolean
+
+            Years = .Range("A" & Index).Value2
+            Hours = .Range("B" & Index).Value2
+            Required = (.Range("C" & Index).Value2 = "Continuous")
+
+            Row.Initialize Years, Hours, Required
+
+            ' Each "Years Worked" value must be unique
+            ' TODO: try catch to give specific error message with steps to correct
+            this.CLANonRepConfig.Add Row
+
+            Set Row = Nothing
+        Next Index
+    End With
+    wbConfig.Close SaveChanges:=False
+End Sub
 
 ' TODO write getters, include logic for years > max index
 '   Use the last member of the collections to determine the
