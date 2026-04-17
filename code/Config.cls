@@ -34,6 +34,10 @@ Public Sub LoadConfigs( _
         Optional ByVal CLARepVacFileName As String _
             = "leave-accrual_vac_classified-represented.csv")
 Attribute LoadConfigs.VB_Description = "Load configurations, optionally change config filenames and directory."
+    ConfigDir = ConfigDirectory
+    fClassifiedNonRepVac = CLANonRepVacFileName
+    fClassifiedRepVac = CLARepVacFileName
+
     ' TODO write private methods to load the config files into this
     InitCLANonRepVac
     ' TODO write a private method to sort the config
