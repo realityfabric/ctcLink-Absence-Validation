@@ -179,7 +179,7 @@ End Sub
 
 '@TestMethod("Init")
 Private Sub Initialize_NegativeYearsWorked()
-    Const ExpectedError As Long = vbObjectError + 380
+    Const ExpectedError As Long = ErrorCode.INVALID_PROPERTY_VALUE
     On Error GoTo TestFail
     
     'Arrange:
@@ -204,7 +204,7 @@ End Sub
 
 '@TestMethod("Init")
 Private Sub Initialize_NegativeAnnualAccrual()
-    Const ExpectedError As Long = vbObjectError + 380
+    Const ExpectedError As Long = ErrorCode.INVALID_PROPERTY_VALUE
     On Error GoTo TestFail
     
     'Arrange:
@@ -213,6 +213,32 @@ Private Sub Initialize_NegativeAnnualAccrual()
     
     'Act:
     TestRow.Initialize 1, -2, True
+    
+Assert:
+    Assert.Fail "Expected error was not raised"
+
+TestExit:
+    Exit Sub
+TestFail:
+    If Err.Number = ExpectedError Then
+        Resume TestExit
+    Else
+        Resume Assert
+    End If
+End Sub
+
+'@TestMethod("Init")
+Private Sub Initialize_Reinit_SameValues()
+    Const ExpectedError As Long = ErrorCode.LET_READ_ONLY_PROPERTY
+    On Error GoTo TestFail
+    
+    'Arrange:
+    Dim TestRow As ConfigRow
+    Set TestRow = New ConfigRow
+    TestRow.Initialize 1, 2, True
+    
+    'Act:
+    TestRow.Initialize 1, 2, True
     
 Assert:
     Assert.Fail "Expected error was not raised"
