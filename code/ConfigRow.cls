@@ -33,7 +33,9 @@ Attribute Initialize.VB_Description = "Initialize read-only values for the insta
     ' Values can only be initialized once.
     ' Attempting to initialize already set values should throw an error.
     If this.IsInitialized Then
-        ' TODO: Throw error
+        Err.Raise ErrorCode.LET_READ_ONLY_PROPERTY, _
+            "HCM_AB_VALIDATION.Initialize", _
+            "Let not supported (read-only property)."
     Else
         YearsWorked = Years
         AnnualAccrual = Hours
@@ -48,7 +50,7 @@ Attribute YearsWorked.VB_Description = "Update the Years Worked to a number of y
     If Years >= 0 Then
         this.YearsWorked = Years
     Else
-        Err.Raise vbObjectError + 380, _
+        Err.Raise ErrorCode.INVALID_PROPERTY_VALUE, _
             "HCM_AB_VALIDATION.ConfigRow", _
             "YearsWorked cannot be negative."
     End If
@@ -66,7 +68,7 @@ Attribute AnnualAccrual.VB_Description = "Update the annual accrual to a number 
     If Hours >= 0 Then
         this.AnnualAccrual = Hours
     Else
-        Err.Raise vbObjectError + 380, _
+        Err.Raise ErrorCode.INVALID_PROPERTY_VALUE, _
             "HCM_AB_VALIDATION.ConfigRow", _
             "AnnualAccrual cannot be negative."
     End If
