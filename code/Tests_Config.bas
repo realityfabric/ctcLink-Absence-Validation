@@ -47,3 +47,52 @@ TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
     Resume TestExit
 End Sub
+
+'@TestMethod("Properties")
+Private Sub Let_ConfigDir_NoFail()
+    On Error GoTo TestFail
+    
+    'Arrange:
+    Dim Conf As Config
+    Set Conf = New Config
+    
+    'Act:
+    Conf.ConfigDir = "C:\Test_Path"
+    
+    'Assert:
+    Assert.Succeed
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+    
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+'@TestMethod("Properties")
+Private Sub Get_ConfigDir()
+    On Error GoTo TestFail
+    
+    'Arrange:
+    Dim Conf As Config
+    Set Conf = New Config
+    
+    'Act:
+    Conf.ConfigDir = "C:\Test_Path"
+    
+    'Assert:
+    Assert.IsTrue "C:\Test_Path" = Conf.ConfigDir
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+    
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
