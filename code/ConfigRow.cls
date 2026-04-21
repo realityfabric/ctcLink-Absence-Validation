@@ -11,11 +11,18 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Type TConfigRow
+    IsInitialized As Boolean
     YearsWorked As Long
     AnnualAccrual As Long
     RequiresContinuousEmployment As Boolean
 End Type
 Private this As TConfigRow
+
+'@Description("Initialize Class")
+Private Sub Class_Initialize()
+Attribute Class_Initialize.VB_Description = "Initialize Class"
+    this.IsInitialized = False
+End Sub
 
 '@Description("Initialize read-only values for the instance.")
 Public Sub Initialize( _
@@ -23,9 +30,16 @@ Public Sub Initialize( _
         ByVal Hours As Long, _
         ByVal RequiresContinuous As Boolean)
 Attribute Initialize.VB_Description = "Initialize read-only values for the instance."
-    YearsWorked = Years
-    AnnualAccrual = Hours
-    RequiresContinuousEmployment = RequiresContinuous
+    ' Values can only be initialized once.
+    ' Attempting to initialize already set values should throw an error.
+    If this.IsInitialized Then
+        ' TODO: Throw error
+    Else
+        YearsWorked = Years
+        AnnualAccrual = Hours
+        RequiresContinuousEmployment = RequiresContinuous
+        this.IsInitialized = True
+    End If
 End Sub
 
 '@Description("Update the Years Worked to a number of years equal to or greater than 0.")
