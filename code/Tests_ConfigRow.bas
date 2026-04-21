@@ -74,7 +74,7 @@ Private Sub Initialize_NoFail()
     
     'Act:
     TestRowContinuous.Initialize 1, 1, True
-    TestRowContinuous.Initialize 1, 1, False
+    TestRowNonContinuous.Initialize 1, 1, False
     
     'Assert:
     Assert.Succeed
