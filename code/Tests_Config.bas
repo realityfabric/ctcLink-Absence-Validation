@@ -33,15 +33,15 @@ End Sub
 Private Sub LoadConfig_Defaults_Success()
 Attribute LoadConfig_Defaults_Success.VB_Description = "Succeeds if the configs load without an error."
     On Error GoTo TestFail
-    
+
     Conf.LoadConfigs
-    
+
     Assert.Succeed
 
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-    
+
     Exit Sub
 TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
@@ -51,21 +51,21 @@ End Sub
 '@TestMethod("Properties")
 Private Sub Let_ConfigDir_NoFail()
     On Error GoTo TestFail
-    
+
     'Arrange:
     Dim Conf As Config
     Set Conf = New Config
-    
+
     'Act:
     Conf.ConfigDir = "C:\Test_Path"
-    
+
     'Assert:
     Assert.Succeed
 
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-    
+
     Exit Sub
 TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
@@ -75,21 +75,21 @@ End Sub
 '@TestMethod("Properties")
 Private Sub Get_ConfigDir()
     On Error GoTo TestFail
-    
+
     'Arrange:
     Dim Conf As Config
     Set Conf = New Config
-    
+
     'Act:
     Conf.ConfigDir = "C:\Test_Path"
-    
+
     'Assert:
     Assert.IsTrue "C:\Test_Path" = Conf.ConfigDir
 
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-    
+
     Exit Sub
 TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description

@@ -20,13 +20,13 @@ End Sub
 '@TestMethod("Time")
 Private Sub EpochTimeGreaterThanZero()
     On Error GoTo TestFail
-    
+
     Assert.IsTrue EpochTime.TimestampNow() > 0
 
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-    
+
     Exit Sub
 TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description

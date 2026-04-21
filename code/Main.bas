@@ -9,7 +9,7 @@ Public Sesh As Session
 Public Sub Main()
     Dim UnixTimestamp As LongLong
     UnixTimestamp = EpochTime.TimestampNow()
-    
+
     Dim wbOutput As Workbook
     Dim wsRepOut As Worksheet
     Dim wsNonRepOut As Worksheet
@@ -20,29 +20,29 @@ Public Sub Main()
     form_fileselect.Show
     ' if file selection form was closed without clicking the button to run this application then terminate
     If Sesh.FormClosedWithoutRunning Then Exit Sub
-    
+
     Set wbOutput = Workbooks.Add
     With wbOutput
       '  .Name = "Absence Validation Output"
         .SaveAs FileName:="ABValidation_" & Trim$(Str$(UnixTimestamp))
-        
+
         ' assign original sheet1 to a variable
         Set wsRepOut = .Sheets.Item(1)
         wsRepOut.Name = "Rep Output"
-        
+
         ' create non-rep sheet
         wsRepOut.Copy After:=.Sheets.Item(.Sheets.Count)
         Set wsNonRepOut = .Sheets.Item(.Sheets.Count)
         wsNonRepOut.Name = "NonRep Output"
-        
+
     End With
 
     Set wsJobData = CopyWorkbookSheet(Sesh.fpathJobData, wbOutput, 1, "Job Data")
     Set wsABValidation = CopyWorkbookSheet(Sesh.fpathABValidation, wbOutput, 1, "AB Validation")
-    
+
     With wsJobData
         .Rows.Item(1).EntireRow.Delete
-        
+
         ' A1:AZ1, reverse order, check for values
         ' AZ is overkill, as the columns currently stop earlier
         ' But for future-proofing, I doubt the number of cols
@@ -63,15 +63,15 @@ Public Sub Main()
             End If
             Next col
     End With
-    
+
     ' Remove non-classified employees
     AddAutoFilter wsJobData, wsJobData.Range("$A$1:$G$1"), 3, "<>CLA"
     DeleteUnfilteredRows wsJobData
     wsJobData.AutoFilterMode = False
-    
+
     With wsABValidation
         .Rows.Item(1).EntireRow.Delete
-        
+
         For col = 26 To 1 Step -1
             Value = .Cells.Item(1, col).Value2
             If Not (Value = "Name" _
@@ -86,87 +86,87 @@ Public Sub Main()
             End If
             Next col
     End With
-    
+
     With wsJobData
         wsJobData.Range("G1") _
             .Value2 = "Years of Service"
-    
+
         .Range("G2:G" & wsJobData.Range("A1").CurrentRegion.Rows.Count) _
             .Formula = "=IF(ISBLANK(E2),"""",DATEDIF(E2,TODAY(),""Y""))"
-        
+
         Dim CutCopyMode As Boolean
         CutCopyMode = Application.CutCopyMode
-        
+
         .Range("A:A").EntireColumn.Insert (XlDirection.xlToRight)
         .Range("A:A").Value = .Range("C:C").Value
         .Range("C:C").EntireColumn.Delete
-        
+
         Application.CutCopyMode = CutCopyMode
     End With
-    
-    
+
+
     With wsRepOut
         ' Filter to only Union employees and copy to Rep Output sheet
         AddAutoFilter wsJobData, wsJobData.Range("A:G"), 6, "Y"
         wsJobData.Range("A:A") _
             .SpecialCells(xlCellTypeVisible) _
             .Copy .Range("A1")
-            
+
         Dim RepOutRowCount As Long
         RepOutRowCount = .Range("A1").CurrentRegion.Rows.Count
-        
+
         .Range("B1").Value2 = "Name"
         .Range("B2:B" & RepOutRowCount) _
             .Formula = "=VLOOKUP(A2, '" & wsJobData.Name & "'!A:G, 2, FALSE)"
-        
+
         .Range("C1").Value2 = "FT/PT"
         .Range("C2:C" & RepOutRowCount) _
             .Formula = "=VLOOKUP(A2, '" & wsJobData.Name & "'!A:G, 4, FALSE)"
-        
+
         .Range("D1").Value2 = "Years of Service"
         .Range("D2:D" & RepOutRowCount) _
             .Formula = "=VLOOKUP(A2, '" & wsJobData.Name & "'!A:G, 7, FALSE)"
-        
+
         .Range("E1").Value2 = "Leave Accrual"
         .Range("E2:E" & RepOutRowCount) _
             .Formula = "=VLOOKUP(TEXT(A2, ""0""), '" & wsABValidation.Name & "'!B:G, 5, FALSE)"
     End With
-    
+
     With wsNonRepOut
         ' Filter to only non-union employees and copy to non-rep output sheet
         AddAutoFilter wsJobData, wsJobData.Range("A:G"), 6, "N"
         wsJobData.Range("A:A") _
             .SpecialCells(xlCellTypeVisible) _
             .Copy .Range("A1")
-            
+
         Dim NonRepOutRowCount As Long
         NonRepOutRowCount = .Range("A1").CurrentRegion.Rows.Count
-        
+
         .Range("B1").Value2 = "Name"
         .Range("B2:B" & NonRepOutRowCount) _
             .Formula = "=VLOOKUP(A2, '" & wsJobData.Name & "'!A:G, 2, FALSE)"
-        
+
         .Range("C1").Value2 = "FT/PT"
         .Range("C2:C" & NonRepOutRowCount) _
             .Formula = "=VLOOKUP(A2, '" & wsJobData.Name & "'!A:G, 4, FALSE)"
-        
+
         .Range("D1").Value2 = "Years of Service"
         .Range("D2:D" & NonRepOutRowCount) _
             .Formula = "=VLOOKUP(A2, '" & wsJobData.Name & "'!A:G, 7, FALSE)"
-        
+
         .Range("E1").Value2 = "Leave Accrual"
         .Range("E2:E" & NonRepOutRowCount) _
             .Formula = "=VLOOKUP(TEXT(A2, ""0""), '" & wsABValidation.Name & "'!B:G, 5, FALSE)"
     End With
-    
+
     AddAutoFilter wsRepOut, wsRepOut.Range("A1").CurrentRegion, 5, "#N/A"
     DeleteUnfilteredRows wsRepOut
     wsRepOut.AutoFilterMode = False
-    
+
     AddAutoFilter wsNonRepOut, wsNonRepOut.Range("A1").CurrentRegion, 5, "#N/A"
     DeleteUnfilteredRows wsNonRepOut
     wsNonRepOut.AutoFilterMode = False
-    
+
     wbOutput.Close SaveChanges:=True
 End Sub
 
