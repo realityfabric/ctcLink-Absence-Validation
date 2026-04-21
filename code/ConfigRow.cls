@@ -85,3 +85,9 @@ Public Property Get RequiresContinuousEmployment() As Boolean
 Attribute RequiresContinuousEmployment.VB_Description = "Get whether or not this instance requires continuous employment."
     RequiresContinuousEmployment = this.RequiresContinuousEmployment
 End Property
+
+'@Description("Get whether or not this instance has been initialized.")
+Public Property Get IsInitialized() As Boolean
+Attribute IsInitialized.VB_Description = "Get whether or not this instance has been initialized."
+    IsInitialized = this.IsInitialized
+End Property
