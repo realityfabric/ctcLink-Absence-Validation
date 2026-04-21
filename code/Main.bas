@@ -24,7 +24,7 @@ Public Sub Main()
     Set wbOutput = Workbooks.Add
     With wbOutput
       '  .Name = "Absence Validation Output"
-        .SaveAs Filename:="ABValidation_" & Trim$(Str$(UnixTimestamp))
+        .SaveAs FileName:="ABValidation_" & Trim$(Str$(UnixTimestamp))
         
         ' assign original sheet1 to a variable
         Set wsRepOut = .Sheets.Item(1)
@@ -223,7 +223,7 @@ Private Function CopyWorkbookSheet( _
 Attribute CopyWorkbookSheet.VB_Description = "Open a workbook and copy a worksheet from it to another workbook, returning the copy."
     Dim wbFrom As Workbook
     Set wbFrom = Workbooks.Open( _
-        Filename:=wbFromPath _
+        FileName:=wbFromPath _
         , ReadOnly:=True _
     )
     With wbTo
