@@ -82,6 +82,7 @@ End Property
 
 '@Description("Set the values for the configuration of Classified Non-Represented vacation accrual.")
 Private Sub InitCLANonRepVac()
+Attribute InitCLANonRepVac.VB_Description = "Set the values for the configuration of Classified Non-Represented vacation accrual."
     Dim wbConfig As Workbook
     Dim Path As String
     Dim Index As Long
