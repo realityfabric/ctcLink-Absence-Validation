@@ -48,7 +48,9 @@ Attribute YearsWorked.VB_Description = "Update the Years Worked to a number of y
     If Years >= 0 Then
         this.YearsWorked = Years
     Else
-        ' TODO throw error
+        Err.Raise vbObjectError + 380, _
+            "HCM_AB_VALIDATION.ConfigRow", _
+            "YearsWorked cannot be negative."
     End If
 End Property
 
@@ -64,7 +66,9 @@ Attribute AnnualAccrual.VB_Description = "Update the annual accrual to a number 
     If Hours >= 0 Then
         this.AnnualAccrual = Hours
     Else
-        ' TODO throw error
+        Err.Raise vbObjectError + 380, _
+            "HCM_AB_VALIDATION.ConfigRow", _
+            "AnnualAccrual cannot be negative."
     End If
 End Property
 
