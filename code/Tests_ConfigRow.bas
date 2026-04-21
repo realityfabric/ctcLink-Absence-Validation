@@ -67,14 +67,14 @@ Private Sub Initialize_NoFail()
     On Error GoTo TestFail
     
     'Arrange:
-    Dim TestRowContinuous As ConfigRow
-    Dim TestRowNonContinuous As ConfigRow
-    Set TestRowContinuous = New ConfigRow
-    Set TestRowNonContinuous = New ConfigRow
+    Dim Row_A As ConfigRow
+    Dim Row_B As ConfigRow
+    Set Row_A = New ConfigRow
+    Set Row_B = New ConfigRow
     
     'Act:
-    TestRowContinuous.Initialize 1, 1, True
-    TestRowNonContinuous.Initialize 1, 1, False
+    Row_A.Initialize 1, 1, True
+    Row_B.Initialize 1, 1, False
     
     'Assert:
     Assert.Succeed
