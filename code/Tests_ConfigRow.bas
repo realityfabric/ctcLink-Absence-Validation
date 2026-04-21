@@ -176,3 +176,53 @@ TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
     Resume TestExit
 End Sub
+
+'@TestMethod("Init")
+Private Sub Initialize_NegativeYearsWorked()
+    Const ExpectedError As Long = vbObjectError + 380
+    On Error GoTo TestFail
+    
+    'Arrange:
+    Dim TestRow As ConfigRow
+    Set TestRow = New ConfigRow
+    
+    'Act:
+    TestRow.Initialize -1, 2, True
+    
+Assert:
+    Assert.Fail "Expected error was not raised"
+
+TestExit:
+    Exit Sub
+TestFail:
+    If Err.Number = ExpectedError Then
+        Resume TestExit
+    Else
+        Resume Assert
+    End If
+End Sub
+
+'@TestMethod("Init")
+Private Sub Initialize_NegativeAnnualAccrual()
+    Const ExpectedError As Long = vbObjectError + 380
+    On Error GoTo TestFail
+    
+    'Arrange:
+    Dim TestRow As ConfigRow
+    Set TestRow = New ConfigRow
+    
+    'Act:
+    TestRow.Initialize 1, -2, True
+    
+Assert:
+    Assert.Fail "Expected error was not raised"
+
+TestExit:
+    Exit Sub
+TestFail:
+    If Err.Number = ExpectedError Then
+        Resume TestExit
+    Else
+        Resume Assert
+    End If
+End Sub
