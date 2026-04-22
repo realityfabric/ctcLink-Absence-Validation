@@ -8,6 +8,10 @@ Option Private Module
 Private Assert As Object
 Private Conf As Config
 
+Private Const CONFIG_TEST_DIR As String = "test_data"
+Private Const CLA_NONREP_CONFIG_FILENAME As String = "leave-accrual_vac_classified-nonrepresented.csv"
+Private Const CLA_REP_CONFIG_FILENAME As String = "leave-accrual_vac_classified-represented.csv"
+
 '@ModuleInitialize
 Private Sub ModuleInitialize()
     Set Assert = CreateObject("Rubberduck.AssertClass")
@@ -29,12 +33,35 @@ Private Sub TestCleanup()
 End Sub
 
 '@Description("Succeeds if the configs load without an error.")
-'@TestMethod("Uncategorized")
+'@TestMethod("IO")
 Private Sub LoadConfig_Defaults_Success()
 Attribute LoadConfig_Defaults_Success.VB_Description = "Succeeds if the configs load without an error."
     On Error GoTo TestFail
 
-    Conf.LoadConfigs
+    Conf.LoadConfigs ' Use defaults
+
+    Assert.Succeed
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+'@Description("Succeeds if the configs load without an error.")
+'@TestMethod("IO")
+Private Sub LoadConfig_TestConfig_NoFail()
+Attribute LoadConfig_TestConfig_NoFail.VB_Description = "Succeeds if the configs load without an error."
+    On Error GoTo TestFail
+
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
 
     Assert.Succeed
 
@@ -95,4 +122,3 @@ TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
     Resume TestExit
 End Sub
-
