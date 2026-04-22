@@ -34,8 +34,8 @@ End Sub
 
 '@Description("Succeeds if the configs load without an error.")
 '@TestMethod("IO")
-Private Sub LoadConfig_Defaults_Success()
-Attribute LoadConfig_Defaults_Success.VB_Description = "Succeeds if the configs load without an error."
+Private Sub LoadConfig_Defaults_NoFail()
+Attribute LoadConfig_Defaults_NoFail.VB_Description = "Succeeds if the configs load without an error."
     On Error GoTo TestFail
 
     Conf.LoadConfigs ' Use defaults
