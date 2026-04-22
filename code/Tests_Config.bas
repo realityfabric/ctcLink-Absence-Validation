@@ -191,6 +191,33 @@ TestFail:
     Resume TestExit
 End Sub
 
+'@TestMethod("IO")
+Private Sub LoadConfig_AnnualAccrualCorrect_GTMax_Rep()
+    On Error GoTo TestFail
+
+    ' Arrange
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
+
+    ' Assert
+    With Conf
+        Dim i As Long
+        For i = 26 To 100
+            Assert.IsTrue .CLA_Rep_Item(i).AnnualAccrual = 200
+        Next i
+    End With
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
 '@TestMethod("Properties")
 Private Sub Let_ConfigDir_NoFail()
     On Error GoTo TestFail
