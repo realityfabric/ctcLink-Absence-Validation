@@ -133,6 +133,63 @@ TestFail:
     Resume TestExit
 End Sub
 
+'@Description("Test passes if all Accurals are correct.")
+'@TestMethod("IO")
+Private Sub LoadConfig_TestConfig_AnnualAccrualCorrect_Rep()
+Attribute LoadConfig_TestConfig_AnnualAccrualCorrect_Rep.VB_Description = "Test passes if all Accurals are correct."
+    On Error GoTo TestFail
+
+    ' Arrange
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
+
+    ' Assert
+    With Conf
+        Assert.IsTrue .CLA_Rep_Item(1).AnnualAccrual = 112
+        Assert.IsTrue .CLA_Rep_Item(2).AnnualAccrual = 112
+
+        Assert.IsTrue .CLA_Rep_Item(3).AnnualAccrual = 120
+
+        Assert.IsTrue .CLA_Rep_Item(4).AnnualAccrual = 128
+
+        Assert.IsTrue .CLA_Rep_Item(5).AnnualAccrual = 136
+        Assert.IsTrue .CLA_Rep_Item(6).AnnualAccrual = 136
+
+        Assert.IsTrue .CLA_Rep_Item(7).AnnualAccrual = 144
+        Assert.IsTrue .CLA_Rep_Item(8).AnnualAccrual = 144
+        Assert.IsTrue .CLA_Rep_Item(9).AnnualAccrual = 144
+
+        Assert.IsTrue .CLA_Rep_Item(10).AnnualAccrual = 160
+        Assert.IsTrue .CLA_Rep_Item(11).AnnualAccrual = 160
+        Assert.IsTrue .CLA_Rep_Item(12).AnnualAccrual = 160
+        Assert.IsTrue .CLA_Rep_Item(13).AnnualAccrual = 160
+        Assert.IsTrue .CLA_Rep_Item(14).AnnualAccrual = 160
+
+        Assert.IsTrue .CLA_Rep_Item(15).AnnualAccrual = 176
+        Assert.IsTrue .CLA_Rep_Item(16).AnnualAccrual = 176
+        Assert.IsTrue .CLA_Rep_Item(17).AnnualAccrual = 176
+        Assert.IsTrue .CLA_Rep_Item(18).AnnualAccrual = 176
+        Assert.IsTrue .CLA_Rep_Item(19).AnnualAccrual = 176
+
+        Assert.IsTrue .CLA_Rep_Item(20).AnnualAccrual = 192
+        Assert.IsTrue .CLA_Rep_Item(21).AnnualAccrual = 192
+        Assert.IsTrue .CLA_Rep_Item(22).AnnualAccrual = 192
+        Assert.IsTrue .CLA_Rep_Item(23).AnnualAccrual = 192
+        Assert.IsTrue .CLA_Rep_Item(24).AnnualAccrual = 192
+
+        Assert.IsTrue .CLA_Rep_Item(25).AnnualAccrual = 200
+    End With
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
 
 '@TestMethod("Properties")
 Private Sub Let_ConfigDir_NoFail()
