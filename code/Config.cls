@@ -38,8 +38,8 @@ Attribute LoadConfigs.VB_Description = "Load configurations, optionally change c
     fClassifiedNonRepVac = CLANonRepVacFileName
     fClassifiedRepVac = CLARepVacFileName
 
-    ' TODO write private methods to load the config files into this
     InitCLANonRepVac
+    InitCLARepVac
     ' TODO write a private method to sort the config
     ' TODO throw an error if the years are not consecutive starting at either 0 or 1
 End Sub
