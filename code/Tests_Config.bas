@@ -75,6 +75,65 @@ TestFail:
     Resume TestExit
 End Sub
 
+'@Description("Test passes if all years are correct.")
+'@TestMethod("IO")
+Private Sub LoadConfig_TestConfig_YearsWorkedCorrect_NonRep()
+Attribute LoadConfig_TestConfig_YearsWorkedCorrect_NonRep.VB_Description = "Test passes if all years are correct."
+    On Error GoTo TestFail
+
+    ' Arrange
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
+
+    ' Assert
+    '@Ignore UseMeaningfulName
+    Dim i As Long
+    For i = 1 To 16
+        Assert.IsTrue Conf.CLA_NonRep_Item(i).YearsWorked = i
+    Next i
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+'@Description("Test passes if all years are correct.")
+'@TestMethod("IO")
+Private Sub LoadConfig_TestConfig_YearsWorkedCorrect_Rep()
+Attribute LoadConfig_TestConfig_YearsWorkedCorrect_Rep.VB_Description = "Test passes if all years are correct."
+    On Error GoTo TestFail
+
+    ' Arrange
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
+
+    ' Assert
+    '@Ignore UseMeaningfulName
+    Dim i As Long
+    For i = 1 To 16
+        Assert.IsTrue Conf.CLA_Rep_Item(i).YearsWorked = i
+    Next i
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+
 '@TestMethod("Properties")
 Private Sub Let_ConfigDir_NoFail()
     On Error GoTo TestFail

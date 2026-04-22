@@ -153,3 +153,45 @@ End Sub
 '   Use the last member of the collections to determine the
 '   max years, after which that ConfigRow will be re-used.
 ' TODO decide if there should be private letters
+
+'@Description("Get CLA Non-Rep ConfigRow. If YearsWorked > Max Then gets Max.")
+'@Ignore UnderscoreInPublicClassModuleMember
+Public Function CLA_NonRep_Item(ByVal YearsWorked As Long) As ConfigRow
+Attribute CLA_NonRep_Item.VB_Description = "Get CLA Non-Rep ConfigRow. If YearsWorked > Max Then gets Max."
+    Set CLA_NonRep_Item = Nothing ' Nothing by default
+    With this.CLANonRepConfig
+        If YearsWorked > .Item(.Count).YearsWorked Then
+            Set CLA_NonRep_Item = .Item(.Count)
+        Else
+            '@Ignore UseMeaningfulName
+            Dim i As Long
+            For i = 1 To .Count
+                If .Item(i).YearsWorked = YearsWorked Then
+                    Set CLA_NonRep_Item = .Item(i)
+                    Exit Function
+                End If
+            Next i
+        End If
+    End With
+End Function
+
+'@Description("Get CLA Rep ConfigRow. If YearsWorked > Max Then gets Max.")
+'@Ignore UnderscoreInPublicClassModuleMember
+Public Function CLA_Rep_Item(ByVal YearsWorked As Long) As ConfigRow
+Attribute CLA_Rep_Item.VB_Description = "Get CLA Rep ConfigRow. If YearsWorked > Max Then gets Max."
+    Set CLA_Rep_Item = Nothing ' Nothing by default
+    With this.CLARepConfig
+        If YearsWorked > .Item(.Count).YearsWorked Then
+            Set CLA_Rep_Item = .Item(.Count)
+        Else
+            '@Ignore UseMeaningfulName
+            Dim i As Long
+            For i = 1 To .Count
+                If .Item(i).YearsWorked = YearsWorked Then
+                    Set CLA_Rep_Item = .Item(i)
+                    Exit Function
+                End If
+            Next i
+        End If
+    End With
+End Function
