@@ -114,6 +114,41 @@ Attribute InitCLANonRepVac.VB_Description = "Set the values for the configuratio
     wbConfig.Close SaveChanges:=False
 End Sub
 
+'@Description("Set the values for the configuration of Classified Represented vacation accrual.")
+Private Sub InitCLARepVac()
+Attribute InitCLARepVac.VB_Description = "Set the values for the configuration of Classified Represented vacation accrual."
+    Dim wbConfig As Workbook
+    Dim Path As String
+    Dim Index As Long
+    Path = ThisWorkbook.Path & "/" & this.ConfigDir & "/" & this.fClassifiedRepVac
+    Set wbConfig = Workbooks.Open(Path, ReadOnly:=True)
+    With wbConfig.Sheets.Item(1)
+        ' Row Index 1 is Headers
+        For Index = 2 To .UsedRange.Rows.Count
+            Dim Row As ConfigRow
+            Set Row = New ConfigRow
+
+            Dim Years As Long
+            Dim Hours As Long
+            Dim Required As Boolean
+
+            Years = .Range("A" & Index).Value2
+            Hours = .Range("B" & Index).Value2
+            ' If Column 3 contains "Continuous" then True, else False
+            Required = (.Range("C" & Index).Value2 = "Continuous")
+
+            Row.Initialize Years, Hours, Required
+
+            ' Each "Years Worked" value must be unique
+            ' TODO: try catch to give specific error message with steps to correct
+            this.CLARepConfig.Add Row
+
+            Set Row = Nothing
+        Next Index
+    End With
+    wbConfig.Close SaveChanges:=False
+End Sub
+
 ' TODO write getters, include logic for years > max index
 '   Use the last member of the collections to determine the
 '   max years, after which that ConfigRow will be re-used.
