@@ -306,3 +306,28 @@ TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
     Resume TestExit
 End Sub
+
+'@Description("Tests MonthlyMinutesAccrued_N in the case that the result is a natural number.")
+'@TestMethod("Function")
+Private Sub MonthlyMinutesAccrued_N()
+Attribute MonthlyMinutesAccrued_N.VB_Description = "Tests MonthlyMinutesAccrued_N in the case that the result is a natural number."
+    On Error GoTo TestFail
+
+    'Arrange:
+    Dim ConfRow As ConfigRow
+    Set ConfRow = New ConfigRow
+    ConfRow.Initialize 1, 136, True
+
+    'Act:
+    'Assert:
+    Assert.IsTrue ConfRow.MonthlyMinutesAccrued = 680
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub

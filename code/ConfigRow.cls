@@ -103,3 +103,9 @@ Public Function MonthlyAccrual() As Single
 Attribute MonthlyAccrual.VB_Description = "Get the number of hours accrued monthly, rounded to the nearest thousandth."
     MonthlyAccrual = Round(AnnualAccrual() / 12, 3)
 End Function
+
+'@Description("Get the number of minutes accrued monthly, rounded to the nearest thousandth.")
+Public Function MonthlyMinutesAccrued() As Single
+Attribute MonthlyMinutesAccrued.VB_Description = "Get the number of minutes accrued monthly, rounded to the nearest thousandth."
+    MonthlyMinutesAccrued = Round((AnnualAccrual() * 60) / 12, 3)
+End Function
