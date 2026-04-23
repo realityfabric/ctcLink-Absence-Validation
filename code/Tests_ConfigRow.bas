@@ -252,3 +252,57 @@ TestFail:
         Resume Assert
     End If
 End Sub
+
+'@Description("Tests MonthlyAccrual in the case that the result is a natural number.")
+'@TestMethod("Function")
+Private Sub MonthlyAccrual_N()
+Attribute MonthlyAccrual_N.VB_Description = "Tests MonthlyAccrual in the case that the result is a natural number."
+    On Error GoTo TestFail
+
+    'Arrange:
+    Dim ConfRow As ConfigRow
+    Set ConfRow = New ConfigRow
+    ConfRow.Initialize 1, 120, True
+
+    'Act:
+    'Assert:
+    Assert.IsTrue ConfRow.MonthlyAccrual = 10
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+'@Description("Tests MonthlyAccrual in the case that the result is an irrational number.")
+'@TestMethod("Function")
+Private Sub MonthlyAccrual_I()
+Attribute MonthlyAccrual_I.VB_Description = "Tests MonthlyAccrual in the case that the result is an irrational number."
+    On Error GoTo TestFail
+
+    'Arrange:
+    Dim ConfRow As ConfigRow
+    Set ConfRow = New ConfigRow
+    ConfRow.Initialize 1, 136, True
+
+    'Act:
+    'Assert:
+    Debug.Print ConfRow.MonthlyAccrual
+    Debug.Print 136 / 12
+    Debug.Print Round(136 / 12, 3)
+    Debug.Print Round(ConfRow.AnnualAccrual / 12, 3)
+    Assert.IsTrue ConfRow.MonthlyAccrual = 11.333
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub

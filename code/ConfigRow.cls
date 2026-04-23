@@ -97,3 +97,9 @@ Public Property Get IsInitialized() As Boolean
 Attribute IsInitialized.VB_Description = "Get whether or not this instance has been initialized."
     IsInitialized = this.IsInitialized
 End Property
+
+'@Description("Get the number of hours accrued monthly, rounded to the nearest thousandth.")
+Public Function MonthlyAccrual() As Single
+Attribute MonthlyAccrual.VB_Description = "Get the number of hours accrued monthly, rounded to the nearest thousandth."
+    MonthlyAccrual = Round(AnnualAccrual() / 12, 3)
+End Function
