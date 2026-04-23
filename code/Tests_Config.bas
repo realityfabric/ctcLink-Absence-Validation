@@ -265,3 +265,51 @@ TestFail:
     Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
     Resume TestExit
 End Sub
+
+'@TestMethod("Properties")
+Private Sub Get_fClassifiedNonRepVac_Initialized()
+    On Error GoTo TestFail
+
+    'Arrange:
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
+
+    'Act:
+    'Assert:
+    Assert.IsTrue CLA_NONREP_CONFIG_FILENAME = Conf.fClassifiedNonRepVac
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+'@TestMethod("Properties")
+Private Sub Get_fClassifiedRepVac_Initialized()
+    On Error GoTo TestFail
+
+    'Arrange:
+    Conf.LoadConfigs _
+        ConfigDirectory:=CONFIG_TEST_DIR, _
+        CLANonRepVacFileName:=CLA_NONREP_CONFIG_FILENAME, _
+        CLARepVacFileName:=CLA_REP_CONFIG_FILENAME
+
+    'Act:
+    'Assert:
+    Assert.IsTrue CLA_REP_CONFIG_FILENAME = Conf.fClassifiedRepVac
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+
+    Exit Sub
+TestFail:
+    Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
